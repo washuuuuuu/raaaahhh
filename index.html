@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Survey</title>
+
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
         .container { max-width: 800px; margin: 20px auto; padding: 20px; }
@@ -12,9 +13,46 @@
 <body>
     <div class="container">
         <h1>Survey</h1>
-        <!-- Typeform Embed Code -->
-        <div class="typeform-widget" data-url="https://pmm3ah6z9pr.typeform.com/to/GwZg02zN#q1start=xxxxx&q1end=xxxxx&q2start=xxxxx&q2end=xxxxx&q3start=xxxxx&q3end=xxxxx" style="width: 100%; height: 500px;"></div>
-        <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/"; if(!gi.call(d,id)) { js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
+        
+        <!-- Typeform Embed Code with Dynamic URL -->
+        <div id="typeform-container"></div>
+        
+        <script>
+            let questionTimes = {
+                q1start: 0,
+                q1end: 0,
+                q2start: 0,
+                q2end: 0,
+                q3start: 0,
+                q3end: 0
+            };
+
+            // Function to update the question times
+            function updateQuestionTime(question, type) {
+                questionTimes[`${question}${type}`] = Date.now();
+                updateTypeformURL();
+            }
+
+            // Function to dynamically update Typeform URL with the timestamps
+            function updateTypeformURL() {
+                const typeformUrl = `https://pmm3ah6z9pr.typeform.com/to/GwZg02zN#q1start=${questionTimes.q1start}&q1end=${questionTimes.q1end}&q2start=${questionTimes.q2start}&q2end=${questionTimes.q2end}&q3start=${questionTimes.q3start}&q3end=${questionTimes.q3end}`;
+                
+                // Update the iframe's src attribute dynamically
+                document.getElementById('typeform-container').innerHTML = `
+                    <div class="typeform-widget" data-url="${typeformUrl}" style="width: 100%; height: 500px;"></div>
+                    <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/"; if(!gi.call(d,id)) { js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() <\/script>
+                `;
+            }
+
+            // Simulate question changes (replace this with real event listeners)
+            setTimeout(() => updateQuestionTime('q1', 'start'), 1000);  // Start question 1 at 1 second
+            setTimeout(() => updateQuestionTime('q1', 'end'), 5000);    // End question 1 at 5 seconds
+            setTimeout(() => updateQuestionTime('q2', 'start'), 6000);  // Start question 2 at 6 seconds
+            setTimeout(() => updateQuestionTime('q2', 'end'), 10000);   // End question 2 at 10 seconds
+            setTimeout(() => updateQuestionTime('q3', 'start'), 11000); // Start question 3 at 11 seconds
+            setTimeout(() => updateQuestionTime('q3', 'end'), 15000);   // End question 3 at 15 seconds
+
+        </script>
     </div>
 </body>
 </html>
